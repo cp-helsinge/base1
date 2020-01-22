@@ -51,29 +51,25 @@ background-image: url('qt/back.png');</string>
     <string/>
    </property>
   </widget>
-  <widget class="QWebView" name="webView">
+  <widget class="QTextBrowser" name="text">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1001</width>
-     <height>701</height>
+     <width>1000</width>
+     <height>700</height>
     </rect>
    </property>
-   <property name="url">
-    <url>
-     <string>file:///home/bruger/py/2020-attack/qt/html/credits.html</string>
-    </url>
+   <property name="styleSheet">
+    <string notr="true">background-image:url('qt/html/python.png'); 
+background-repeat: no-repeat;
+background-color: #000;
+color: #b90;</string>
    </property>
   </widget>
+  <zorder>text</zorder>
+  <zorder>back_button</zorder>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebKitWidgets/QWebView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

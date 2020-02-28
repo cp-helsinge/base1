@@ -25,58 +25,70 @@
 import sys
 import os
 
-from PyQt5 import uic, QtCore, QtWebEngineWidgets
-from PyQt5.QtWidgets import (QWidget, QListWidget, QStackedWidget, QApplication,
-                             QHBoxLayout, QListWidgetItem, QLabel)
+from PyQt5 import uic, QtCore, QtWidgets, QtGui
+#from PyQt5.QtWidgets import (QWidget, QListWidget, QStackedWidget, QApplication,
+#                             QHBoxLayout, QListWidgetItem, QLabel)
 
 from common import game
 from game_objects import level_controle
 from common import globals
 
+# Create a widget, using a HTML file (located in the html_path.
+# The  widget can only interpret simple HTML. It uses a subset of HTML 3.2 and 4. And css 2.1
+# External links wil be opned in the system browser, where as internal links wil be followed 
+# in the document root directory (html_path)
+# If you need a comprehensive HTML browser, use the QWebEngine module.
+class SimpleHTMLPage:
+    def __init__(self, url):
+        self.widget = QtWidgets.QTextBrowser()
+        # Enable external links to be opened in the system browser
+        self.widget.setOpenExternalLinks(True)
+        # Load the HTML, markdown or text file
+        self.widget.setSource(QtCore.QUrl().fromLocalFile(os.path.join(html_path,url)))
+
+
 class MainPage():
     def __init__(self, navigate):
+        # Load a UI resource file
         self.widget = uic.loadUi(os.path.join(qt_path,'main_page.ui'))
 
+        # Attach action to buttons
         self.widget.credits_button.clicked.connect(lambda: navigate("credits_page"))
         self.widget.boring_button.clicked.connect(lambda: navigate("boring_page"))
         self.widget.play_button.clicked.connect(lambda: navigate("play"))
         self.widget.exit_button.clicked.connect(lambda: navigate("exit"))
 
 
-class CreditsPage():
-    def __init__(self, navigate):
-        self.widget = uic.loadUi(os.path.join(qt_path,'credits_page.ui'))
-        with open( os.path.join(html_path,'credits.html'), 'r' ) as html_file:
-            self.widget.text.setText( html_file.read() ) 
-
-        self.widget.back_button.clicked.connect(lambda: navigate("main_page"))
-
-class BoringPage():
-    def __init__(self, navigate):
-        self.widget = uic.loadUi(os.path.join(qt_path,'boring_page.ui'))
-        with open( os.path.join(html_path,'boring.html'), 'r' ) as html_file:
-            self.widget.text_1.setText( html_file.read() ) 
-        self.widget.text_2.setText(boring_text) 
-        self.widget.back_button.clicked.connect(lambda: navigate("main_page"))
-
-class MainWindow(QWidget):
+class MainWindow(QtWidgets.QWidget):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+
+        # Set screen size
         self.resize(1000, 700)
 
-        layout = QHBoxLayout(self, spacing=0)
+        # Create window and let staged widged contain all the pages used.
+        layout = QtWidgets.QHBoxLayout(self, spacing=0)
         layout.setContentsMargins(0, 0, 0, 0)
-        self.stacked_widget = QStackedWidget(self)
+        self.stacked_widget = QtWidgets.QStackedWidget(self)
         layout.addWidget(self.stacked_widget)
+        
+        # Create a back button (on all other pages than manin page)
+        self.back_button = QtWidgets.QPushButton(QtGui.QIcon('qt/back.png'),"",self)
+        self.back_button.setGeometry(QtCore.QRect(20, 20, 100, 100))
+        self.back_button.setIconSize(QtCore.QSize(150, 150))
+        self.back_button.clicked.connect(lambda: self.navigate("main_page"))
+        self.back_button.hide()
 
+        # Create stack of pages
         self.page = {}
         self.page['main_page'] = self.stacked_widget.addWidget(MainPage(self.navigate).widget)
-        self.page['credits_page'] = self.stacked_widget.addWidget(CreditsPage(self.navigate).widget)
-        self.page['boring_page'] = self.stacked_widget.addWidget(BoringPage(self.navigate).widget)
+        self.page['credits_page'] = self.stacked_widget.addWidget(SimpleHTMLPage('credits.html').widget)
+        self.page['boring_page'] = self.stacked_widget.addWidget(SimpleHTMLPage('boring.html').widget)
 
         self.keyPressEvent = self.newOnkeyPressEvent
         self.show()
 
+    # Handle key inputs
     def newOnkeyPressEvent(self,e):
         for page_name, stack_index in self.page.items():
             if stack_index == self.stacked_widget.currentIndex():
@@ -88,13 +100,27 @@ class MainWindow(QWidget):
                 else:
                     self.navigate('main_page')
 
+    # Navigate
     def navigate(self, page_name):
+        #Hide back button, on main page
+        if page_name == 'main_page':
+            self.back_button.hide()
+        else:
+            self.back_button.show()
+
+        # Go to page
         if page_name in self.page:
             self.stacked_widget.setCurrentIndex(self.page[page_name])
+            # Let simple HTML pages be reloaded to its homepage. (Might have followed a link) 
+            if isinstance(self.stacked_widget.currentWidget(), QtWidgets.QTextBrowser):
+                self.stacked_widget.currentWidget().home()
+                self.stacked_widget.currentWidget().reload()
 
+        # Exit
         elif page_name == 'exit':
             sys.exit(0)
 
+        # Start game
         elif page_name == 'play':
             self.hide()
             globals.game = game.Game()
@@ -103,34 +129,17 @@ class MainWindow(QWidget):
             del globals.game
             self.show()
 
-
-boring_text = """
-<div style="  display: inline-block; vertical-align: middle;">
-    Developed by Martin Kristensen @ Coding Pirates 2020 <img src="qt/coding_pirates.png">
-</div>
-<div style="  display: inline-block; vertical-align: middle;">
-Original design by Simon Rigét @ Coding Pirates 2019 <img src="qt/coding_pirates.png">
-</div>
-"""
-
 # Set some global variables
-globals.root_path = root_path = os.path.join(os.path.dirname(__file__))
-globals.qt_path   = qt_path   = os.path.join(root_path,'qt')
-globals.game_path = game_path = os.path.join(root_path,'game_objects')
-globals.html_path = html_path = os.path.join(root_path,'qt','html')
-globals.gfx_path  = gfx_path  = os.path.join(root_path,'media')
-globals.sound_path  = sound_path  = os.path.join(root_path,'sound')
+globals.root_path = root_path = os.path.join(os.path.dirname(__file__)) # Root of this package
+globals.qt_path   = qt_path   = os.path.join(root_path,'qt')            # root of QT application files
+globals.game_path = game_path = os.path.join(root_path,'game_objects')  # Game program objects
+globals.html_path = html_path = os.path.join(root_path,'qt','html')     # QT HTML pages
+globals.gfx_path  = gfx_path  = os.path.join(root_path,'gfx')           # Graphic art and sprites
+globals.sound_path  = sound_path  = os.path.join(root_path,'sound')     # sound effects and music
 
-globals.app = app = QApplication(sys.argv)
-# app.setStyleSheet(Stylesheet)
 
+# Start application
+globals.app = app = QtWidgets.QApplication(sys.argv)
 globals.window = window = MainWindow()
 app.exec_()
-
-
-
-# Error handler
-pass
-
-
 

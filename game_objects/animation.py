@@ -86,6 +86,8 @@ class Animate:
 
       except Exception as error:
         print(error, self.name, "not loaded")
+        if not rect:
+          self.rect = tuple2rect((0,0,100,100))
         image = self.__default_image(self.rect)
 
       if sprite_map:
@@ -111,6 +113,7 @@ class Animate:
       if not frame_rate: 
         self.frame_rate = self.frames
 
+
   # Load one or multiple image files as frames
   def __load_image_sequence(self, name):
     list = []
@@ -123,7 +126,7 @@ class Animate:
       except Exception as error:
         if index <= 0:
           print(error, self.name.format(index = self.frames), "not loaded")
-          image = self.__default_image(self.rect[2], self.rect[3])
+          image = self.__default_image(self.rect)
         done = True
       list.append(image)
       index += 1

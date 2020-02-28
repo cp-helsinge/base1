@@ -118,7 +118,7 @@ globals.root_path = root_path = os.path.join(os.path.dirname(__file__))
 globals.qt_path   = qt_path   = os.path.join(root_path,'qt')
 globals.game_path = game_path = os.path.join(root_path,'game_objects')
 globals.html_path = html_path = os.path.join(root_path,'qt','html')
-globals.gfx_path  = gfx_path  = os.path.join(root_path,'gfx')
+globals.gfx_path  = gfx_path  = os.path.join(root_path,'media')
 globals.sound_path  = sound_path  = os.path.join(root_path,'sound')
 
 globals.app = app = QApplication(sys.argv)

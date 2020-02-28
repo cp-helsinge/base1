@@ -3,12 +3,9 @@
   Shot
 
 ============================================================================"""
-import pygame
-import random 
-from game_objects import globals
+import pygame, random 
+from common import globals, common, animation
 from game_objects import setting
-from game_objects import common
-from game_objects import animation
 
 class EnemyShot:
   def __init__(self, 

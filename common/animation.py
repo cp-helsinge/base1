@@ -87,7 +87,7 @@ class Animate:
       except Exception as error:
         if not rect:
           self.rect = tuple2rect((0,0,100,100))
-        print(error, self.name, "Using default image",self.rect)
+        print(error, self.name, "Using default image")
         image = self.__default_image(self.rect)
 
       if sprite_map:

@@ -83,7 +83,6 @@ class Level1:
           'sound': player_shot_sound,
         },
       }},
-      {'city'         : { 'rect': (10,580,80,80),   'sprite': city_sprite, 'sound': city_dead_sound }},
       {'alien'        : {
         'rect'        : (800,30,100,50),
         'sprite'       : alien_sprite,

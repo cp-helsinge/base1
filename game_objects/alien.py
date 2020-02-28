@@ -58,30 +58,7 @@ class Alien:
 
     self.rect = common.move_rect(self.rect, self.direction, self.speed, self.boundary)  
 
-    # Bombs
-    if self.bomb and  common.random_frequency(0.3):
-       # Place a bomb under alien ship (without touching)
-      midbottom = self.rect.midbottom
-      x = midbottom[0] - self.bomb['rect'][2] // 2
-      y = midbottom[1] + 1 
-      self.bomb['rect'] = ( x, y, self.bomb['rect'][2], self.bomb['rect'][3])
-      
-      globals.game.object.add('bomb', self.bomb)
-
-    # Shoot at player at random interval
-    if self.shot and  common.random_frequency(0.5):
-      # Place shot under alien ship
-      midbottom = self.rect.midbottom
-      x = midbottom[0] - self.bomb['rect'][2] // 2
-      y = midbottom[1] + 1
-      self.shot['rect'] = ( x, y, self.shot['rect'][2], self.shot['rect'][3])
-
-      # Direct shot at player
-      target = globals.player.rect.midtop
-      self.shot['direction'] = math.degrees(math.atan2( target[0] - x, target[1] - y )) -90
-
-      globals.game.object.add('enemy_shot', self.shot)
-
+  
   def hit(self, object_type):
     if object_type == 'shot':
       self.delete = True

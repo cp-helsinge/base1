@@ -6,7 +6,7 @@
 
 ============================================================================"""
 import pygame
-from game_objects import globals
+from common import globals
 from game_objects import setting
 
 class Dashboard:

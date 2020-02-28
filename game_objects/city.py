@@ -4,8 +4,8 @@
 
 ============================================================================"""
 import pygame
-from game_objects import globals
-from game_objects import common
+from common import globals
+from common import common
 from game_objects import animation
 
 class City:

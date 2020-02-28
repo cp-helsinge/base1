@@ -29,9 +29,9 @@ from PyQt5 import uic, QtCore, QtWebEngineWidgets
 from PyQt5.QtWidgets import (QWidget, QListWidget, QStackedWidget, QApplication,
                              QHBoxLayout, QListWidgetItem, QLabel)
 
-from game_objects import game
+from common import game
 from game_objects import level_controle
-from game_objects import globals
+from common import globals
 
 class MainPage():
     def __init__(self, navigate):

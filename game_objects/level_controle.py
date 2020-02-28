@@ -5,8 +5,8 @@ import pygame
 import os
 
 from game_objects import story
-from game_objects import globals
-from game_objects import common
+from common import globals
+from common import common
 from game_objects import end_game
 from game_objects import setting
 from game_objects import animation

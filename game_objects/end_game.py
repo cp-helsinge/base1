@@ -6,9 +6,9 @@
 ============================================================================"""
 
 import pygame
-from game_objects import globals
+from common import globals
 from game_objects import setting
-from game_objects import common
+from common import common
 from game_objects import animation
 
 class EndGame:

@@ -107,6 +107,7 @@ class Game:
 
   # This is the main game loop
   def loop(self):
+    print("Game started")
     while not self.player_input.stop:
       self.frame_start = pygame.time.get_ticks()
   
@@ -158,7 +159,8 @@ class Game:
       if count['alien'] <= 0:
         self.level_controle.next()
 
-      if count['player'] <= 0 or count['city'] <= 0:
+      if count['player'] <= 0:
+        print("Game ended")
         self.end_game.set()
         self.player_input.stop = True
 
@@ -166,6 +168,7 @@ class Game:
 
       # Calculate timing and wait until frame rate is right
       self.clock.tick( setting.frame_rate * self.game_speed )
+
 
 
     

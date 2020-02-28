@@ -127,6 +127,7 @@ class MainWindow(QtWidgets.QWidget):
             globals.game.loop()
             del globals.game
             self.show()
+            self.back_button.hide()
 
 # Set some global variables
 globals.root_path = root_path = os.path.join(os.path.dirname(__file__)) # Root of this package

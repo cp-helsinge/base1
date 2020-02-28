@@ -24,10 +24,8 @@ Rhe function story.get_level(level) returns the level dictionary
 import sys
 import pygame
 from pygame.locals import *
-from common import common
+from common import common, animation
 from game_objects import setting
-from game_objects import animation
-
 
 def get_level(level):
     board = getattr(sys.modules[__name__], "Level" + str(level),False)
@@ -50,11 +48,11 @@ class Level1:
     music               = common.load_music('Test1.ogg')
     next_level_sound    = False
 
-    background_sprite   = animation.Animate('sky2.jpg',( 0,0, setting.screen_width, setting.screen_height))
-    player_sprite       = animation.Animate('a1a1_rocket2.png',(500,500,80,80))
+    background_sprite   = animation.Animate('sky.jpg',( 0,0, setting.screen_width, setting.screen_height))
+    player_sprite       = animation.Animate('player.png',(500,500,80,80))
     player_shot_sprite  = animation.Animate('shot.png',(0,0,10,10))
-    city_sprite         = animation.Animate('city7.png',(0,0,80,80))
-    alien_sprite        = animation.Animate("ufo1-{index}.png",(0,0,100,50))
+    city_sprite         = animation.Animate('city.png',(0,0,80,80))
+    alien_sprite        = animation.Animate("alien-{index}.png",(0,0,100,50))
     alien_bomb_sprite   = animation.Animate('bomb.png',(0,0,40,40))
     alien_shot_sprite   = animation.Animate('alien_shot.png')
     level_sprite        = animation.Animate('level1.png',( 0,0, setting.screen_width, setting.screen_height) )
@@ -68,7 +66,7 @@ class Level1:
     self.objects = [
       {'background': {
         'color': pygame.Color('dodgerblue1'),
-        'sprite': background_sprite,
+        'sprite': '',
       }},
       {'player': {
         'rect'            : (500,500,80,80),

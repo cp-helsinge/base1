@@ -29,9 +29,8 @@ from PyQt5 import uic, QtCore, QtWidgets, QtGui
 #from PyQt5.QtWidgets import (QWidget, QListWidget, QStackedWidget, QApplication,
 #                             QHBoxLayout, QListWidgetItem, QLabel)
 
-from common import game
-from game_objects import level_controle
-from common import globals
+from common import globals, common, animation, game
+from game_objects import setting
 
 # Create a widget, using a HTML file (located in the html_path.
 # The  widget can only interpret simple HTML. It uses a subset of HTML 3.2 and 4. And css 2.1

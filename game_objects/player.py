@@ -13,10 +13,8 @@
     
 ============================================================================"""
 import pygame
-from common import globals
-from common import common
+from common import globals, common, animation
 from game_objects import setting
-from game_objects import animation
 
 class Player:
   def __init__(self, 

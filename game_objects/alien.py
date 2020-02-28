@@ -15,11 +15,8 @@
 import pygame
 import math
 import random
-from common import globals
+from common import globals, common, animation
 from game_objects import setting
-from common import common
-from game_objects import animation
-
 
 class Alien:
   def __init__(self, 

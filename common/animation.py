@@ -85,9 +85,9 @@ class Animate:
         image = pygame.image.load(self.name).convert_alpha()
 
       except Exception as error:
-        print(error, self.name, "not loaded")
         if not rect:
           self.rect = tuple2rect((0,0,100,100))
+        print(error, self.name, "Using default image",self.rect)
         image = self.__default_image(self.rect)
 
       if sprite_map:
@@ -149,12 +149,14 @@ class Animate:
         list.append(pygame.transform.smoothscale(clip, ( self.rect.width, self.rect.height )))
     return list
 
-    # Create an image, with a rectangle in it
+  # Create an image, with a rectangle arround and a cross in it
   def __default_image(self, rect):
     if not self.rect:
       self.rect = tuple2rect(0,0,100,100)
     image = pygame.Surface((self.rect.width, self.rect.height ))
-    pygame.draw.rect(image, (200,0,0), self.rect, 2)
+    pygame.draw.rect(image, (200,0,0), (0, 0, self.rect.width, self.rect.height ), 2)
+    pygame.draw.line(image, (200,0,0), (0,0) , (self.rect.width, self.rect.height), 2)
+    pygame.draw.line(image, (200,0,0), (0,self.rect.height) , (self.rect.width, 0), 2)
     return image
   
   def get_surface(self):

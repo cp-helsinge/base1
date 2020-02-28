@@ -4,10 +4,8 @@
 
 ============================================================================"""
 import pygame
-from common import common
+from common import globals, common, animation
 from game_objects import setting
-from common import globals
-from game_objects import animation
 
 class Background:
   def __init__(self, color = (0,0,0), sprite = False ):
